@@ -14,16 +14,19 @@ export class AuthController {
     @Post()
     @ApiResponse({ status: 201, description: 'User created' })
     @ApiResponse({ status: 404, description: 'Error al registrar el usuario' })
-    @ApiOperation({ summary: 'Este metodo crea un usuario' })
-    //@UseGuards(AuthGuard('jwt'))
+    @ApiOperation({ summary: 'Este metodo almacena las credenciales del usuario y se comunica con el Servicio B' })
     async createUser(@Res() res, @Body() data: UserDto) {
         try {
             const dataUser = await this.authService.createUser(data);
-            const result = {
-                statusCode: HttpStatus.CREATED,
-                data: dataUser
+            if (dataUser?._id) {
+                const result = {
+                    statusCode: HttpStatus.CREATED,
+                    data: dataUser
+                }
+                return res.status(result.statusCode).json(result);
+            } else {
+                return res.status(dataUser.statusCode).json(dataUser);
             }
-            return res.status(result.statusCode).json(result);
         } catch (error) {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: error});
         }

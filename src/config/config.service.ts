@@ -22,6 +22,26 @@ export class ConfigService extends ConfigManager {
                 required: false,
                 default: process.env.PORT
             },
+            RABBITMQ_USER: {
+                validate: Joi.string(),
+                required: true,
+                default: process.env.RABBITMQ_USER,
+            },
+            RABBITMQ_PASSWORD: {
+                validate: Joi.string(),
+                required: true,
+                default: process.env.RABBITMQ_PASSWORD,
+            },
+            RABBITMQ_HOST: {
+                validate: Joi.string(),
+                required: true,
+                default: process.env.RABBITMQ_HOST,
+            },
+            RABBITMQ_QUEUE_NAME: {
+                validate: Joi.string(),
+                required: true,
+                default: process.env.RABBITMQ_QUEUE_NAME,
+            },
         };
     }
 }
